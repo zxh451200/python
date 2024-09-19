@@ -9,32 +9,38 @@ class test():
     @classmethod
     def print_hi(name):
         # 在下面的代码行中使用断点来调试脚本。
-        with open("新建文本文档 (2).txt","r") as fg:
+        with open("新建文本文档 (2).txt", "r") as fg:
             print(11)
 
 
-def c(f):
-    def c2(*args,**kwargs):
-        start=time.time()
-        print("c")
-        f(*args,**kwargs)
-        print("c")
-        end=time.time()
-        print("耗时{}".format(end-start))
-    return c2;
-@c
+def timer(params: int):
+    def outer(f):
+        def inner(*args, **kwargs):
+            start = time.time()
+            print("c")
+            res = f(*args, **kwargs)
+            print("c")
+            end = time.time()
+            print("耗时{}".format(end - start))
+            return res;
+
+        return inner
+
+    return outer
+
+
+@timer(params=3)
 def a():
     time.sleep(1)
     print("a")
+    return "aaaaaaaaaaa"
 
-@c
+
+@timer(333333333333333)
 def b():
     print("b")
 
 
-
-a()
-
 # 按装订区域中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    c(a)
+    print(a())
